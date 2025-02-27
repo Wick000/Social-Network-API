@@ -20,11 +20,25 @@ const reactionSchema = new Schema<IReaction>(
         },
         username: {
             type: String,
+            required: true,
         },
         createdAt: {
             type: Date,
             default: Date.now,
+            get: (value) => value.toLocalString(),
         },
+    },
+    {
+        toJSON:{
+            getters:true,
+        },
+        id:false,
     }
 )
 export default reactionSchema;
+
+
+//25 26 28
+
+//database name at the end of the configs connection string
+//server routes checkout controllers model

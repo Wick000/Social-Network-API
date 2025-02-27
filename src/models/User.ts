@@ -7,10 +7,28 @@ interface IUser extends Document {
     friends: ObjectId[];
 }
 
+
+
 const userSchema = new Schema<IUser>(
     {
-        username: String,
-        email: String,
+        username: {
+            type: String,
+            unique: true, 
+            required: true,
+            trim: true
+        },
+        email: {
+            type: String,
+            required: true,
+            unique: true,
+            validate: {
+                validator: function(v) {
+                    return  /^[a-zA-Z0-9_.±]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/.test(v);
+                },
+                message: props => `${props.value} is not a valid email`
+            },
+        },
+
         thoughts: [
             {
                 type: Schema.Types.ObjectId,
@@ -31,6 +49,13 @@ const userSchema = new Schema<IUser>(
         id: false,
     }
 );
+userSchema
+.virtual('friendCount')
+
+.get(function (){
+    return this.friends.length;
+});
+
 
 const User = model('User', userSchema)
 
