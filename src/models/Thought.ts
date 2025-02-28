@@ -1,4 +1,4 @@
-import { Schema, Document, ObjectId, Types, model } from 'mongoose';
+import { Schema, Document, model } from 'mongoose';
 //check imports when work start
 import Reaction from './Reaction.js'
 interface IThoughts extends Document {
@@ -19,7 +19,7 @@ const thoughtsSchema = new Schema<IThoughts>(
       createdAt: {
         type: Date,
         default: Date.now,
-        get: (value) => value.toLocaleString(),
+        get: (value: any) => value.toLocaleString(),
       },
       username: {
         type: String,

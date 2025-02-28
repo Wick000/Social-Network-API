@@ -15,7 +15,7 @@ export const getAllThoughts = async (_req: Request, res: Response) => {
         }
        return res.json(thoughtsObj);
     } catch (error:any) {
-        res.status(500).json({
+        return res.status(500).json({
             message: error.message
         });
     }
@@ -28,9 +28,9 @@ export const getSingleThoughts = async (req: Request, res: Response) =>{
         .select('-__v')
 
         if(!thought) {
-            res.status(404).json({message: "No user by that id"})
+           return res.status(404).json({message: "No user by that id"})
         } else{
-            res.json(thought);
+          return  res.json(thought);
         }
     } catch (err) {
        return res.status(500).json(err);
@@ -102,9 +102,9 @@ export const createReaction = async (req: Request, res: Response) => {
                 .status(404)
                 .json({ message: 'No Thoughts found with that ID :(' });
         }
-        res.json(thought)
+       return res.json(thought)
     } catch (err) {
-        res.status(500).json(err)
+       return res.status(500).json(err)
     }
 }
 
@@ -120,9 +120,9 @@ export const removeReaction = async (req: Request, res: Response) => {
                 .status(404)
                 .json({ message: 'No Thought found with that ID :(' });
         }
-        res.json(thought)
+       return res.json(thought)
 
     } catch (err) {
-        res.status(500).json(err);
+       return res.status(500).json(err);
     }
 }

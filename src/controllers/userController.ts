@@ -20,7 +20,7 @@ export const getAllUsers = async (_req: Request, res: Response) => {
         }
        return res.json(userObj);
     } catch (error:any) {
-        res.status(500).json({
+       return res.status(500).json({
             message: error.message
         });
     }
@@ -33,9 +33,9 @@ export const getSingleUser = async (req: Request, res: Response) =>{
             .populate({path: 'friends', select: '-__v'})
         
         if(!user) {
-            res.status(404).json({message: "No user by that id"})
+         return   res.status(404).json({message: "No user by that id"})
         } else{
-            res.json(user);
+          return  res.json(user);
         }
     } catch (err) {
        return res.status(500).json(err);
@@ -45,7 +45,7 @@ export const getSingleUser = async (req: Request, res: Response) =>{
 export const createUser = async (req: Request, res: Response) => {
     try {
         const user = await User.create(req.body);
-        res.json(user)
+       return res.json(user)
     } catch (err) {
        return res.status(500).json(err);
     }
@@ -111,7 +111,7 @@ export const deleteFriend = async (req: Request, res: Response) => {
         );
 
         if (!friend) {
-            res.status(404).json({ message: 'No Friends found with that ID'});
+          return  res.status(404).json({ message: 'No Friends found with that ID'});
         } else {
             return res.json(friend)
         }
