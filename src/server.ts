@@ -12,6 +12,7 @@ app.use(express.json());
 
 app.use(routes);
 
+//ask about the db.once('open') logic and why and when to use it
 app.listen(PORT, () => {
   console.log(`API server running on port ${PORT}!`);
 });

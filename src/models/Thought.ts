@@ -5,7 +5,7 @@ interface IThoughts extends Document {
     thoughtText: string;
     createdAt: Date;
     username: string;
-    reactions: typeof Reaction[]; //check this with the instructors
+    reactions:  typeof Reaction[]; //check this with the instructors
 }
 
 const thoughtsSchema = new Schema<IThoughts>(
@@ -19,7 +19,7 @@ const thoughtsSchema = new Schema<IThoughts>(
       createdAt: {
         type: Date,
         default: Date.now,
-        get: (value) => value.toLocalString(),
+        get: (value) => value.toLocaleString(),
       },
       username: {
         type: String,
