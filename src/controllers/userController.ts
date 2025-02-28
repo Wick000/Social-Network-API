@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { ObjectId } from "mongoose"
+//import { ObjectId } from "mongoose"
 import  User  from '../models/User.js'
 import Thoughts from "../models/Thought.js";
 
@@ -82,5 +82,40 @@ export const deleteUser = async (req: Request, res: Response) => {
         
     } catch(error:any) {
         res.status(500).json({message: error.message})
+    }
+}
+// Friends might need to be users here im not sure
+export const newFriend = async (req: Request, res: Response) => {
+    try {
+        const friend = await User.findOneAndUpdate(
+            {_id: req.params.userId},
+            {$addToSet: { friends: req.body} },
+            { runValidators: true, new: true}
+        )
+        if (!friend) {
+            res.status(404).json({message: 'No Friend found with that ID'})
+        } else {
+            res.json(friend);
+        }
+    } catch (err) {
+        res.status(500).json(err)
+    }
+}
+
+export const deleteFriend = async (req: Request, res: Response) => {
+    try {
+        const friend = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $pull: { friends: {friendId: req.params.friendId} } },
+            { runValidators: true, new: true}
+        );
+
+        if (!friend) {
+            res.status(404).json({ message: 'No Friends found with that ID'});
+        } else {
+            return res.json(friend)
+        }
+    } catch (err){
+        return res.status(500).json(err)
     }
 }
