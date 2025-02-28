@@ -87,15 +87,15 @@ export const deleteUser = async (req: Request, res: Response) => {
 // Friends might need to be users here im not sure
 export const newFriend = async (req: Request, res: Response) => {
     try {
-        const friend = await User.findOneAndUpdate(
+        const user = await User.findOneAndUpdate(
             {_id: req.params.userId},
             {$addToSet: { friends: req.body} },
             { runValidators: true, new: true}
         )
-        if (!friend) {
+        if (!user) {
             res.status(404).json({message: 'No Friend found with that ID'})
         } else {
-            res.json(friend);
+            res.json(user);
         }
     } catch (err) {
         res.status(500).json(err)
@@ -104,16 +104,16 @@ export const newFriend = async (req: Request, res: Response) => {
 
 export const deleteFriend = async (req: Request, res: Response) => {
     try {
-        const friend = await User.findOneAndUpdate(
+        const user = await User.findOneAndUpdate(
             { _id: req.params.userId },
             { $pull: { friends: {friendId: req.params.friendId} } },
             { runValidators: true, new: true}
         );
 
-        if (!friend) {
+        if (!user) {
           return  res.status(404).json({ message: 'No Friends found with that ID'});
         } else {
-            return res.json(friend)
+            return res.json(user)
         }
     } catch (err){
         return res.status(500).json(err)

@@ -10,10 +10,12 @@ import{
     deleteFriend,
 } from '../../controllers/userController.js';
 
-router.route('/api/user')
-.get(getAllUsers).get(getSingleUser).post(createUser).put(updateUser).delete(deleteUser);
+router.route('/')
+.get(getAllUsers).post(createUser);
 
-router.route('/api/users/:userId/friends/:friendId')
+router.route('/:userId').get(getSingleUser).put(updateUser).delete(deleteUser);
+
+router.route('/:userId/friends/:friendId')
 .post(newFriend).delete(deleteFriend);
 
 export {router as userRouter}

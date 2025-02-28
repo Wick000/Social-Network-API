@@ -93,7 +93,8 @@ export const deleteThought = async (req: Request, res: Response) => {
 export const createReaction = async (req: Request, res: Response) => {
     try {
         const thought = await Thoughts.findOneAndUpdate( 
-            {_id: req.query.thoughtId},
+            
+            {_id: req.params.thoughtId},
             {$addToSet: {reactions: req.body}}, 
             { runValidators: true, new: true}
         );
