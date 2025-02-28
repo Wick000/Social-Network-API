@@ -15,3 +15,5 @@ router.route('/api/thoughts')
 .get(getAllThoughts).get(getSingleThoughts).post(createNewThought).put(updateThought).delete(deleteThought);
 
 router.route('/api/thoughts/:thoughtId/reactions').post(createReaction).delete(removeReaction);
+
+export{router as thoughtRouter};

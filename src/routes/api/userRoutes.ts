@@ -15,3 +15,5 @@ router.route('/api/user')
 
 router.route('/api/users/:userId/friends/:friendId')
 .post(newFriend).delete(deleteFriend);
+
+export {router as userRouter}
