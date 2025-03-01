@@ -25,7 +25,7 @@ const reactionSchema = new Schema<IReaction>(
         createdAt: {
             type: Date,
             default: Date.now,
-            get: (value: any) => value.toLocalString(),
+            get: (value: any) => value.toLocaleString(),
         },
     },
     {

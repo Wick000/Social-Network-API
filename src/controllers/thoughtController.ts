@@ -38,7 +38,10 @@ export const getSingleThoughts = async (req: Request, res: Response) =>{
 }
 
 export const createNewThought = async (req: Request, res: Response) => {
-    try {
+    try {//made changes here
+        if (!req.body.userId) {
+            return res.status(400).json({message: "userId is required to create thought"})
+        }
         const thought = await Thoughts.create(req.body);
         const user = await User.findOneAndUpdate(
             { _id: req.body.userId},
@@ -47,28 +50,31 @@ export const createNewThought = async (req: Request, res: Response) => {
         );
         
     if (!user) {
-        res
+       return res
           .status(404)
           .json({ message: 'Thought created, but found no User with that ID' });
       } else {
-        res.json('Created the Thought!');
+       return res.json(thought);// made changes here
       }
     } catch (err) {
         console.log(err);
-        res.status(500).json(err);
+       return res.status(500).json(err);
       }
 }
-
+//made changes here
 export const updateThought = async (req: Request, res: Response) => {
     try {
-        const thought = await Thoughts.findOneAndUpdate({_id: req.params.thoughtId});
+        const thought = await Thoughts.findOneAndUpdate({_id: req.params.thoughtId},
+            req.body,
+            { runValidators: true, new: true}
+        );
       
         if (!thought) {
             res
               .status(404)
               .json({ message: 'Sorry there are no Thoughts with That ID' });
           } else{
-            res.json('Updated Thought!');
+            res.json(thought);
           }
     } catch (err) {
         res.status(500).json(err)
@@ -83,7 +89,7 @@ export const deleteThought = async (req: Request, res: Response) => {
               .status(404)
               .json({ message: 'Sorry there are no Thoughts with That ID' });
     } else {
-        res.json('Thought Deleted')
+        res.json({ message: 'Thought Deleted', deleteThought: thought});
     }
     } catch (err) {
     res.status(500).json(err);
@@ -113,7 +119,7 @@ export const removeReaction = async (req: Request, res: Response) => {
     try {
         const thought = await Thoughts.findOneAndUpdate(
             {_id: req.params.thoughtId},
-            {$pull: {reactions: { reactionsId: req.params.reactionId}}},
+            {$pull: {reactions: { _id: req.params.reactionId}}},
             {runValidators: true, new: true}
         );
         if (!thought) {

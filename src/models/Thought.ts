@@ -1,11 +1,12 @@
 import { Schema, Document, model } from 'mongoose';
 //check imports when work start
-import Reaction from './Reaction.js'
+
+import reactionSchema from './Reaction.js';
 interface IThoughts extends Document {
     thoughtText: string;
     createdAt: Date;
     username: string;
-    reactions:  typeof Reaction[]; //check this with the instructors
+    reactions:  typeof reactionSchema[]; //check this with the instructors
 }
 
 const thoughtsSchema = new Schema<IThoughts>(
@@ -25,7 +26,7 @@ const thoughtsSchema = new Schema<IThoughts>(
         type: String,
         required: true,
       },
-      reactions: [Reaction],  
+      reactions: [reactionSchema],  
     },
     {
         
